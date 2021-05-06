@@ -1,10 +1,13 @@
 from flask import Flask, Response, request
+from flask_cors import CORS 
+
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origin": "*"}})
 
 @app.route('/events/', methods=['POST'])
 def post_events():
-    data = open('data.txt', 'w+')
+    data = open('data.xml', 'w+')
     data.write(request.data.decode('utf-8'))
     data.close()
 
@@ -13,7 +16,7 @@ def post_events():
 
 @app.route('/events/', methods=['GET'])
 def get_events():
-    data = open('data.txt', 'r+')
+    data = open('data.xml', 'r+')
     return Response(response=data.read(),
                         mimetype='text/plain', content_type='text/plain')
 
